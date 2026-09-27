@@ -58,7 +58,7 @@ test('passed hu blocks same/lower score until own draw; last four forces hu', ()
 });
 test('supplemental gang is robbed without charging gang points and keeps original peng', () => {
   const g=new M.Game();g.players.forEach(p=>{p.missing=2;p.hand=[];});g.phase='play';g.turn=0;
-  g.players[0].hand=[0,1,2,3,4,5,6,7,8,9,9];g.players[0].melds=[{kind:'peng',tile:0,from:3}];g.players[1].hand=hand('1123456789 111');
+  g.players[0].hand=[0,1,2,3,4,5,6,7,8,9,10];g.players[0].melds=[{kind:'peng',tile:0,from:3}];g.players[1].hand=hand('1123456789 111');
   assert.equal(g.act('bugang',0),true);assert.equal(g.phase,'response');g.respond('hu');assert.equal(g.players[0].melds[0].kind,'peng');assert.equal(g.transfers.filter(t=>t.kind==='gang').length,0);assert.equal(g.discards.filter(d=>d.robbed).length,1);
 });
 test('wall exhaustion settles flower pig, ready hand, and refunds only received gang scores', () => {

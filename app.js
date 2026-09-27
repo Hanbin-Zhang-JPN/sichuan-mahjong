@@ -110,7 +110,10 @@
     render(); schedule();
   }
   $('actions').addEventListener('click', e => { const b = e.target.closest('[data-action]'); if (b) action(b.dataset.action); });
-  document.addEventListener('keydown', e => { if (e.key === 'Enter' && !$('rules-dialog').open && !$('result-dialog').open && game.phase === 'play' && game.turn === 0) { e.preventDefault(); action('discard'); } });
+  document.addEventListener('keydown', e => {
+    if (e.target.closest?.('button')) return;
+    if (e.key === 'Enter' && !$('rules-dialog').open && !$('result-dialog').open && game.phase === 'play' && game.turn === 0) { e.preventDefault(); action('discard'); }
+  });
   $('rules-open').onclick = () => $('rules-dialog').showModal(); $('rules-close').onclick = () => $('rules-dialog').close();
   $('new-game').onclick = () => { if (confirm('重新开局会清零本桌积分。确定重新开始？')) nextRound(true); };
   $('next-round').onclick = () => nextRound(); $('result-review').onclick = () => $('result-dialog').close();
