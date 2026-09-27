@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>蜀间 · 四川麻将</title>
+  <meta name="description" content="一人对战三位 AI 的四川麻将血战到底。108 张牌，换三张、定缺，打开即可游玩。">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230c3935'/%3E%3Crect x='7' y='4' width='18' height='24' rx='3' fill='%23fff9e8'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%23bc3937'%3E萬%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css?v=1">
+  <script defer src="rules.js?v=1"></script><script defer src="app.js?v=1"></script>
+</head>
+<body>
+  <header class="topbar"><div class="brand"><span class="brand-seal">蜀</span><div><h1>蜀间<span>四川麻将</span></h1><p>血战到底 · 一桌四人</p></div></div><nav><button id="rules-open" class="quiet">玩法说明</button><button id="new-game" class="quiet">重新开局</button></nav></header>
+  <main>
+    <section class="game" aria-label="四川麻将牌桌">
+      <div class="table-top"><span id="round-label">第 1 局</span><span>108 张 · 换三张 · 定缺</span><span id="wall-label">牌墙 55 张</span></div>
+      <div class="felt">
+        <section class="seat north" id="seat-2" aria-label="对家"></section>
+        <section class="seat west" id="seat-3" aria-label="左手玩家"></section>
+        <section class="seat east" id="seat-1" aria-label="右手玩家"></section>
+        <div class="table-center"><span class="center-kicker">四川 · 血战到底</span><div class="center-mark">蜀间</div><p id="center-status">换三张</p><div id="last-play" aria-label="最近的出牌"></div><p id="last-caption"></p></div>
+        <div class="discard-area" id="discard-area" aria-label="四家牌河"></div>
+      </div>
+      <section class="human-zone"><div id="seat-0" class="human-info"></div><div id="human-melds" class="melds"></div><div class="hand-scroll"><div id="hand" class="hand" aria-label="你的手牌"></div></div><div class="action-panel"><div><h2 id="prompt">选择同一花色的三张牌</h2><p id="hint">选好后，点击「确认换牌」。</p></div><div id="actions" class="actions"></div></div></section>
+    </section>
+    <aside class="sidebar"><section class="scoreboard"><h2>本桌积分 <span>娱乐积分，无现金</span></h2><div id="scores"></div></section><section class="log-panel"><h2>牌局记录</h2><ol id="log" aria-live="polite"></ol></section><section class="quick-rule"><h2>记住这三件事</h2><p><b>先打缺门。</b>缺门没打完，不能胡。</p><p><b>不吃，可以碰杠。</b>胡牌优先，可一炮多响。</p><p><b>胡了不散桌。</b>三家胡牌或牌墙摸完，才结算。</p></section></aside>
+  </main>
+  <footer>单机 AI 对局 · 无需账号 · 支持 Mac、手机与电脑浏览器 <span>蜀间 / SHUJIAN</span></footer>
+  <dialog id="rules-dialog" aria-labelledby="rules-title"><div class="dialog-heading"><div><span class="eyebrow">第一次玩？从这里开始</span><h2 id="rules-title">本桌玩法说明</h2></div><button id="rules-close" class="quiet">关闭</button></div><div class="rules-content">
+    <h3>一副牌，四人各自争胜</h3><p>万、条、筒各 36 张，共 108 张；没有字牌、花牌和大小王。你与三位 AI 各自计分，不分队友。庄家 14 张，其余各 13 张；首局你坐庄，此后轮流坐庄。AI 每次随机思考 0.5～1.5 秒。</p>
+    <h3>换三张 → 定缺 → 摸牌打牌</h3><p>每人选同一花色的三张牌，按本局随机方向同时交换（下家、上家或对家）。随后定缺万、条或筒。有缺门牌必须先打缺门；缺门没清空不能碰杠或胡牌。摸一张、打一张，依次轮到你、右手、对家、左手；碰后不摸牌直接打牌，杠后从牌墙尾部补一张。</p>
+    <h3>碰、杠、胡</h3><p>不允许吃。两张相同牌可碰别人打出的同牌；三张可点杠；四张同牌可暗杠；已碰后摸到第四张可补杠（可被抢杠胡）。胡牌为四组顺子或刻子加一对，或者七对，且不能含缺门。胡优先于碰杠，同一张可让多人胡。胡牌者退出本局，不再摸打，也不再承担此后自摸或杠分。</p>
+    <h3>本版番数与积分</h3><p>底分 1，平胡 0 番；对对胡 +1 番、七对 +2、清一色 +2、金钩钓 +1；每组四张相同牌（根）+1；杠上花、杠后炮、抢杠胡、海底胡各 +1。符合条件可叠加，最多 4 番，基础分为 2 的番数次方（1、2、4、8、16）。七对与对对胡不叠加；龙七对按七对加根计算。</p><p>点炮由点炮者付基础分；自摸由其余未胡者各付基础分 +1。点杠由点杠者付 2；补杠由其余未胡者各付 1；暗杠各付 2。仅用娱乐积分，不涉及现金。</p>
+    <h3>血战、流局与过水</h3><p>三家胡牌或牌墙摸完结束。摸完时：持缺门牌为花猪，向每位非花猪（包括已胡者）付 16；未胡且非花猪者查叫，未听牌者按听牌者可胡的最高基础分赔付。花猪、未听牌者退还本局收取的杠分；已胡者不查叫。听牌检验不扣除已经可见的牌。本版不启用呼叫转移、天地胡、将对、幺九及门清中张加番。</p><p>放弃一次点炮胡后，直到自己再次摸牌，不能胡同分或更低分的点炮牌（过水）。牌墙剩余 4 张及以下，能胡必须胡；自摸胡也必须胡。你胡牌后可旁观 AI 打完，随后查看完整结算。</p>
+    <h3>怎么操作</h3><p>换牌时点击三张牌再确认；定缺时点花色。打牌时单击选牌，再点「打出」或按 Enter；也可双击直接打出。点「建议」会选中推荐出牌，不会替你出牌。碰、杠、胡或过牌只会在合法时出现。</p><p class="rules-note">四川麻将有多种地方桌规；以上是本游戏明确采用的休闲规则，不宣称是所有地区的统一规则。</p>
+  </div></dialog>
+  <dialog id="result-dialog" aria-labelledby="result-title"><div class="dialog-heading"><div><span class="eyebrow">本局结束</span><h2 id="result-title">牌局结算</h2></div></div><p id="result-summary"></p><div id="result-scores"></div><details><summary>查看本局积分明细与手牌</summary><div id="result-details"></div></details><div class="result-actions"><button id="result-review" class="quiet">返回牌桌</button><button id="next-round" class="primary">下一局</button></div></dialog>
+</body></html>
